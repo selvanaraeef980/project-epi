@@ -1,10 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:eipscan_app/CameraWithRtmp.dart';
-import 'package:eipscan_app/Dises.dart';
-import 'package:eipscan_app/Langouge.dart';
+import 'package:eipscan_app/dises.dart';
 import 'package:eipscan_app/SettingScreen.dart';
 import 'package:eipscan_app/accountPage.dart';
+import 'package:eipscan_app/dises.dart';
 import 'package:eipscan_app/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dises.dart';
 import 'firebase_options.dart';
 // ignore: unused_import
 import 'information_page.dart';
@@ -54,16 +55,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LanguageSelectionScreen(), // Start with language selection screen
+      home: OnboardingScreen(),
     );
   }
 }
 
 class OnboardingScreen extends StatefulWidget {
-  final String language;
-  
-  OnboardingScreen({required this.language});
-
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
@@ -72,63 +69,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  List<OnboardingPageModel> onboardingPages = [];
-
-  @override
-  void initState() {
-    super.initState();
-    onboardingPages = widget.language == 'en' ? getEnglishPages() : getArabicPages();
-  }
-
-  List<OnboardingPageModel> getEnglishPages() {
-    return [
-      OnboardingPageModel(
-        imagePath: "assets/images/Health professional team-bro.png",
-        title: "Episcan",
-        description: "Begin your wellness journey today with Episcan, your trusted health partner.",
-      ),
-      OnboardingPageModel(
-        imagePath: "assets/images/Virus-bro.png",
-        title: "Early Cancer Screening",
-        description: "Discover early signs of cancer with simple steps through our screening feature.",
-      ),
-      OnboardingPageModel(
-        imagePath: "assets/images/Time management-pana.png",
-        title: "Treatment Alarms",
-        description: "Receive timely notifications for your treatment schedules, making sure you never miss a dose with our reminder system.",
-      ),
-      OnboardingPageModel(
-        imagePath: "assets/images/Questions-pana.png",
-        title: "General Information",
-        description: "Explore detailed information on 7 types of cancer, understanding the differences and specifics of each to empower your knowledge.",
-      )
-    ];
-  }
-
-  List<OnboardingPageModel> getArabicPages() {
-    return [
-      OnboardingPageModel(
-        imagePath: "assets/images/Health professional team-bro.png",
-        title: "إيبسكان",
-        description: "ابدأ رحلتك نحو العافية اليوم مع إيبسكان، شريكك الصحي الموثوق.",
-      ),
-      OnboardingPageModel(
-        imagePath: "assets/images/Virus-bro.png",
-        title: "فحص السرطان المبكر",
-        description: "اكتشف العلامات المبكرة للسرطان بخطوات بسيطة من خلال ميزة الفحص لدينا.",
-      ),
-      OnboardingPageModel(
-        imagePath: "assets/images/Time management-pana.png",
-        title: "تنبيهات العلاج",
-        description: "تلقي إشعارات في الوقت المناسب لجدول علاجك، مما يضمن عدم تفويت جرعة باستخدام نظام التذكير لدينا.",
-      ),
-      OnboardingPageModel(
-        imagePath: "assets/images/Questions-pana.png",
-        title: "معلومات عامة",
-        description: "استكشف معلومات مفصلة حول 7 أنواع من السرطان، لفهم الفروقات والتفاصيل الخاصة بكل نوع لتمكين معرفتك.",
-      )
-    ];
-  }
+  List<OnboardingPageModel> onboardingPages = [
+    OnboardingPageModel(
+      imagePath: "assets/images/Health professional team-bro.png",
+      title: "Episcan",
+      description:
+          "Begin your wellness journey today with Episcan, your trusted health partner.",
+    ),
+    OnboardingPageModel(
+      imagePath: "assets/images/Virus-bro.png",
+      title: "Early Cancer Screening",
+      description:
+          "Discover early signs of cancer with simple steps through our screening feature.",
+    ),
+    OnboardingPageModel(
+      imagePath: "assets/images/Time management-pana.png",
+      title: "Treatment Alarms",
+      description:
+          "Receive timely notifications for your treatment schedules, making sure you never miss a dose with our reminder system.",
+    ),
+    OnboardingPageModel(
+      imagePath: "assets/images/Questions-pana.png",
+      title: "General Information",
+      description:
+          "Explore detailed information on 7 types of cancer, understanding the differences and specifics of each to empower your knowledge.",
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +143,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           curve: Curves.easeIn,
                         );
                       },
-                      child: Text('Next', style: TextStyle(color: Colors.black)),
+                      child:
+                          Text('Next', style: TextStyle(color: Colors.black)),
                     ),
                   ),
                 if (_currentPage == onboardingPages.length - 1)
@@ -197,8 +164,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
-}
-
 
   Widget buildOnboardingPage(
       OnboardingPageModel pageModel, BuildContext context) {
@@ -241,9 +206,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       return MediaQuery.of(context).size.height * 0.4;
     }
   }
-  
-  class _currentPage {
-  }
 
   double _calculateImageWidth(BuildContext context) {
     if (_currentPage == 2 || _currentPage == 3) {
@@ -268,6 +230,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Text(label, style: TextStyle(fontSize: 16)),
     );
   }
+}
 
 class OnboardingPageModel {
   final String imagePath;
@@ -764,7 +727,7 @@ class _FirstpageState extends State<Firstpage> {
       });
 
       var response =
-          await dio.post('http://192.168.1.6:8000/upload', data: formData);
+          await dio.post('http://192.168.216.194:8000/upload', data: formData);
 
       if (response.statusCode == 200) {
         print('Image uploaded successfully!');
@@ -791,7 +754,7 @@ class _FirstpageState extends State<Firstpage> {
       });
 
       var response =
-          await dio.post('http://192.168.1.6:8000/predict', data: formData);
+          await dio.post('http://192.168.216.194:8000/predict', data: formData);
 
       if (response.statusCode == 200) {
         var data = response.data;
@@ -959,26 +922,28 @@ class _FirstpageState extends State<Firstpage> {
                 const SizedBox(height: 10),
                 if (_predictionResult.isNotEmpty)
                   ElevatedButton(
-  onPressed: () => navigateToInformationPage(_predictionResult),
-  child: Text(
-    "More Info",
-    style: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
-    ),
-  ),
-  style: ButtonStyle(
-    minimumSize: MaterialStateProperty.all(Size(double.infinity, 40)),
-    backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.pressed)) {
-        return Colors.orange;
-      }
-      return Colors.grey;
-    }),
-  ),
-),
-
+                    onPressed: () =>
+                        navigateToInformationPage(_predictionResult),
+                    child: Text(
+                      "More Info",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      minimumSize:
+                          MaterialStateProperty.all(Size(double.infinity, 40)),
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.pressed)) {
+                          return Colors.orange;
+                        }
+                        return Colors.grey;
+                      }),
+                    ),
+                  ),
               ],
             ),
           ),
